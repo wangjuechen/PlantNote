@@ -1,5 +1,6 @@
 package com.example.plantnote
 
+import com.example.plantnote.data.RocketLaunch
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -18,13 +19,12 @@ class Greeting {
                 ignoreUnknownKeys = true
             })
         }
-
     }
 
     @Throws(Exception::class)
     suspend fun greet(): String {
-//        val rockets: List<RocketLaunch> = httpClient.get("https://api.spacexdata.com/v4/launches").body()
-//        val lastSuccessLaunch = rockets.last { it.launchSuccess == true }
-        return "Guess what it is > ${platform.name.reversed()}!"}
-
+        val rockets: List<RocketLaunch> = httpClient.get("https://api.spacexdata.com/v4/launches").body()
+        val lastSuccessLaunch = rockets.last { it.launchSuccess == true }
+        return "Guess what it is > ${platform.name.reversed()}!" + "Last launch: ${lastSuccessLaunch.launchSuccess}"
+    }
 }
