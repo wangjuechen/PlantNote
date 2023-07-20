@@ -6,7 +6,8 @@ jobs:
     name: Format number with two decimal places
     runs-on: ubuntu-latest
     steps:
-    - env:
+    - name: Format number
+      env:
         VAR1: 98.4342334
       run: |
         rounded=$(printf "%.2f" $VAR1)
