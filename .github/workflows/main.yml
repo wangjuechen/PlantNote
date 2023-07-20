@@ -3,11 +3,10 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    name: Greeting
+    name: Format number with two decimal places
     runs-on: ubuntu-latest
     steps:
-    - name: Run a multi-line script
-      env: 
+    - env:
         VAR1: 98.4342334
       run: |
         rounded=$(printf "%.2f" $VAR1)
