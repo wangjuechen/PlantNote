@@ -1,6 +1,6 @@
 name: Test Workflow
-on: push
-
+on:
+  workflow_dispatch:
 jobs:
   build:
     name: Greeting
@@ -9,5 +9,5 @@ jobs:
     - name: Run a multi-line script
       env: 
         VAR1: 98.4342334
-      run: echo "${{VAR1}}."
+      run: echo "${{env.VAR1}}."
     
