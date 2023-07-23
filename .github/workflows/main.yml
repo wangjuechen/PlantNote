@@ -1,9 +1,6 @@
 name: Test Workflow
 on:
-#  workflow_dispatch:
-  schedule:
-  # * is a special character in YAML so you have to quote this string
-  - cron:  '18 8 * * *'
+  push
 jobs:
   build:
     name: Format number with two decimal places
