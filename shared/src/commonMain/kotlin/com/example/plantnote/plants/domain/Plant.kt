@@ -4,10 +4,11 @@ package com.example.plantnote.plants.domain
 data class Plant(
     val id: Long,
     val name: String,
-    val dateObtained: Long,
-    val lastDateWatered: Long,
-    val lastWaterAmount: Double,
-    val waterFrequencyInDays: Int,
+    val dateObtained: Long = 0L,
+    val lastDateWatered: Long = 0L,
+    val lastWaterAmount: Double = 0.0,
+    val waterFrequencyInDays: Int = 0,
+    val isStarred: Boolean,
     val note: String?,
     val photoBytes: ByteArray?
 )

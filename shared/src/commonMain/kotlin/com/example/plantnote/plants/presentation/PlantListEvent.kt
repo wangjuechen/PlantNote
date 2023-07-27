@@ -11,7 +11,7 @@ sealed interface PlantListEvent {
 
     data class OnSelectPlant(val plant: Plant) : PlantListEvent
     data class OnEditPlant(val plant: Plant) : PlantListEvent
-    data class DeletePlant(val plant: Plant) : PlantListEvent
+    object DeletePlant : PlantListEvent
 
     data class OnNameChanged(val value: String) : PlantListEvent
     data class OnDateObtainedChanged(val value: Long) : PlantListEvent

@@ -1,8 +1,9 @@
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization") version "1.8.10"
     id("com.android.library")
     id("org.jetbrains.compose")
-    kotlin("plugin.serialization") version "1.8.10"
+    id("com.squareup.sqldelight")
 }
 
 kotlin {
@@ -101,6 +102,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 }
+
+sqldelight {
+    database("PlantDatabase") {
+        packageName = "com.example.plantnote.database"
+        sourceFolders = listOf("sqldelight")
+    }
+}
+
 dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")

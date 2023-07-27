@@ -5,14 +5,20 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.plantnote.App
+import com.example.plantnote.di.AppModule
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            App(darkTheme = isSystemInDarkTheme(), dynamicColor = true)
+            App(
+                darkTheme = isSystemInDarkTheme(),
+                dynamicColor = false,
+                appModule = AppModule(LocalContext.current.applicationContext)
+            )
         }
     }
 }
@@ -21,6 +27,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MyApplicationTheme {
-        App(darkTheme = false, dynamicColor = false)
+        App(
+            darkTheme = false,
+            dynamicColor = false,
+            appModule = AppModule(LocalContext.current.applicationContext)
+        )
     }
 }

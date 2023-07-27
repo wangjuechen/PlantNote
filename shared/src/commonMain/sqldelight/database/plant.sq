@@ -1,0 +1,50 @@
+CREATE TABLE plantEntity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    dateObtained INTEGER NOT NULL,
+    lastDateWatered INTEGER NOT NULL,
+    lastWaterAmount TEXT NOT NULL,
+    waterFrequencyInDays INTEGER NOT NULL,
+    isStarred INTEGER NOT NULL,
+    note TEXT,
+    createdAt INTEGER NOT NULL,
+    imagePath TEXT
+);
+
+getPlants:
+SELECT *
+FROM plantEntity
+ORDER BY dateObtained DESC;
+
+getStarredPlants:
+SELECT *
+FROM plantEntity
+WHERE isStarred = 1;
+
+insertPlant:
+INSERT OR REPLACE
+INTO plantEntity(
+    id,
+    name,
+    dateObtained,
+    lastDateWatered,
+    lastWaterAmount,
+    waterFrequencyInDays,
+    isStarred,
+    note,
+    createdAt,
+    imagePath
+) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+deletePlant:
+DELETE
+FROM plantEntity
+WHERE id = :id;
+
+getPlantById:
+SELECT *
+FROM plantEntity
+WHERE id = :id;
+
+
+
