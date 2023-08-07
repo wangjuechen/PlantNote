@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.plantnote.App
+import com.example.plantnote.core.presentation.ImagePickerFactory
 import com.example.plantnote.di.AppModule
 
 class MainActivity : ComponentActivity() {
@@ -17,7 +18,8 @@ class MainActivity : ComponentActivity() {
             App(
                 darkTheme = isSystemInDarkTheme(),
                 dynamicColor = false,
-                appModule = AppModule(LocalContext.current.applicationContext)
+                appModule = AppModule(LocalContext.current.applicationContext),
+                imagePicker = ImagePickerFactory().createPicker()
             )
         }
     }
@@ -30,7 +32,8 @@ fun DefaultPreview() {
         App(
             darkTheme = false,
             dynamicColor = false,
-            appModule = AppModule(LocalContext.current.applicationContext)
+            appModule = AppModule(LocalContext.current.applicationContext),
+            imagePicker = ImagePickerFactory().createPicker()
         )
     }
 }

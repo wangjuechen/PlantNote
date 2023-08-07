@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.example.plantnote.core.presentation.ImagePicker
 import com.example.plantnote.core.presentation.PlantsTheme
 import com.example.plantnote.di.AppModule
 import com.example.plantnote.plants.presentation.PlantsListViewModel
@@ -18,7 +19,8 @@ import dev.icerock.moko.mvvm.compose.viewModelFactory
 fun App(
     darkTheme: Boolean,
     dynamicColor: Boolean,
-    appModule: AppModule
+    appModule: AppModule,
+    imagePicker: ImagePicker
 ) {
     PlantsTheme(
         darkTheme = darkTheme,
@@ -38,7 +40,8 @@ fun App(
             PlantListScreen(
                 state = state,
                 newPlant = viewModel.newPlant,
-                onEvent = viewModel::onEvent
+                onEvent = viewModel::onEvent,
+                imagePicker = imagePicker
             )
         }
     }

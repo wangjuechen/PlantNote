@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.plantnote.core.presentation.AddPlantSheet
+import com.example.plantnote.core.presentation.ImagePicker
 import com.example.plantnote.plants.domain.Plant
 import com.example.plantnote.plants.presentation.PlantListEvent
 import com.example.plantnote.plants.presentation.PlantListState
@@ -31,8 +32,12 @@ import com.example.plantnote.plants.presentation.PlantListState
 fun PlantListScreen(
     state: PlantListState,
     newPlant: Plant?,
-    onEvent: (PlantListEvent) -> Unit
+    onEvent: (PlantListEvent) -> Unit,
+    imagePicker: ImagePicker
 ) {
+    imagePicker.registerPicker {
+        onEvent(PlantListEvent.OnPhotoPicked(it))
+    }
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -76,6 +81,11 @@ fun PlantListScreen(
         state = state,
         newPlant = newPlant,
         isOpen = state.isAddPlantSheetOpen,
-        onEvent = onEvent
+        onEvent = {
+            if (it is PlantListEvent.OnAddPhotoClicked) {
+                imagePicker.pickImage()
+            }
+            onEvent(it)
+        }
     )
 }
