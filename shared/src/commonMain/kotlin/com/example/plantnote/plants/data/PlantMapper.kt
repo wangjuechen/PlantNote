@@ -1,10 +1,11 @@
 package com.example.plantnote.plants.data
 
+import com.example.plantnote.core.data.ImageStorage
 import com.example.plantnote.plants.domain.Plant
 import database.PlantEntity
 
 
-fun PlantEntity.toPlant(): Plant {
+suspend fun PlantEntity.toPlant(imageStorage: ImageStorage): Plant {
     return Plant(
         id = id,
         name = name,
@@ -14,7 +15,7 @@ fun PlantEntity.toPlant(): Plant {
         waterFrequencyInDays = waterFrequencyInDays.toInt(),
         isStarred = isStarred.toBoolean(),
         note = note,
-        photoBytes = null
+        photoBytes = imagePath?.let { imageStorage.getImage(it)  }
     )
 }
 
