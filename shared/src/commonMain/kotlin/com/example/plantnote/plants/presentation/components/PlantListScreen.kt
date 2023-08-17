@@ -77,6 +77,12 @@ fun PlantListScreen(
         }
     }
 
+    PlantDetailSheet(
+        isOpen = state.isSelectedPlantSheetOpen,
+        selectedPlant = state.selectedPlant,
+        onEvent = onEvent
+    )
+
     AddPlantSheet(
         state = state,
         newPlant = newPlant,
