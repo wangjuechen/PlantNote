@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.plantnote.core.presentation.AddPlantSheet
 import com.example.plantnote.core.presentation.ImagePicker
 import com.example.plantnote.plants.domain.Plant
 import com.example.plantnote.plants.presentation.PlantListEvent

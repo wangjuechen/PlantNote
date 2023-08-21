@@ -47,8 +47,7 @@ kotlin {
                 implementation("com.squareup.sqldelight:runtime:1.5.5")
                 implementation("com.squareup.sqldelight:coroutines-extensions:1.5.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-
-
+                implementation("com.squaredem:composecalendar:1.0.0")
             }
         }
         val commonTest by getting {
@@ -112,12 +111,17 @@ sqldelight {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
-    implementation("androidx.compose.ui:ui-tooling-preview-android:1.6.0-alpha01")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.4.3")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
+    implementation("androidx.compose.ui:ui-tooling-preview-android:1.6.0-alpha03")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.5.0")
 
     commonMainApi("dev.icerock.moko:mvvm-core:0.16.1")
     commonMainApi("dev.icerock.moko:mvvm-compose:0.16.1")
     commonMainApi("dev.icerock.moko:mvvm-flow:0.16.1")
     commonMainApi("dev.icerock.moko:mvvm-flow-compose:0.16.1")
+    commonMainImplementation("io.github.epicarchitect:calendar-compose-basis:1.0.4")
+    commonMainImplementation("io.github.epicarchitect:calendar-compose-ranges:1.0.4")
+    commonMainImplementation("io.github.epicarchitect:calendar-compose-pager:1.0.4")
+    commonMainImplementation("io.github.epicarchitect:calendar-compose-datepicker:1.0.4")
+    commonMainImplementation("com.squaredem:composecalendar:1.0.0")
 }

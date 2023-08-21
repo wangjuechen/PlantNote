@@ -23,7 +23,6 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Eco
 import androidx.compose.material.icons.rounded.Edit
-import androidx.compose.material3.Button
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,7 +39,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.plantnote.core.presentation.CustomBottomSheet
-import com.example.plantnote.core.presentation.PlantTextField
 import com.example.plantnote.plants.domain.Plant
 import com.example.plantnote.plants.presentation.PlantListEvent
 

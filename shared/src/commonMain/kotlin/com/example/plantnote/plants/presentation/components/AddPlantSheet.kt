@@ -1,10 +1,11 @@
-package com.example.plantnote.core.presentation
+package com.example.plantnote.plants.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,16 +23,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.example.plantnote.core.presentation.CustomBottomSheet
 import com.example.plantnote.plants.domain.Plant
 import com.example.plantnote.plants.presentation.PlantListEvent
 import com.example.plantnote.plants.presentation.PlantListState
-import com.example.plantnote.plants.presentation.components.PlantPhoto
+import kotlinx.datetime.LocalDate
 
-
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun AddPlantSheet(
     state: PlantListState,
@@ -40,6 +45,31 @@ fun AddPlantSheet(
     onEvent: (PlantListEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
+//    val datePickerState = rememberEpicDatePickerState(selectionMode = EpicDatePickerState.SelectionMode.Single())
+
+    // first declare a variable that holds the dialog visibility state
+    val showDialog = rememberSaveable { mutableStateOf(false) }
+
+    // then show the dialog based on the state
+    if (showDialog.value) {
+//        ComposeCalendar(
+//            startDate = LocalDate.now(),
+//            minDate = LocalDate.now(),
+//            maxDate = LocalDate.MAX
+//        )
+//        ComposeCalendar(
+//            onDone = { _: LocalDate ->
+//                // Hide dialog
+//                showDialog.value = false
+//                // Do something with the date
+//            },
+//            onDismiss = {
+//                // Hide dialog
+//                showDialog.value = false
+//            }
+//        )
+    }
+
     CustomBottomSheet(
         visible = isOpen,
         modifier = modifier.fillMaxWidth()
@@ -94,16 +124,7 @@ fun AddPlantSheet(
                     },
                     modifier = Modifier.fillMaxSize()
                 )
-                Spacer(Modifier.height(16.dp))
-                PlantTextField(
-                    value = newPlant?.name ?: "",
-                    placeHolder = "Plant name",
-                    error = state.nameError,
-                    onValueChanged = {
-                        onEvent(PlantListEvent.OnNameChanged(it))
-                    },
-                    modifier = Modifier.fillMaxSize()
-                )
+
                 Spacer(Modifier.height(16.dp))
                 PlantTextField(
                     value = newPlant?.dateObtained.toString(), //TODO: leave this for now, needs a long->date conversion method to convert
