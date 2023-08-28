@@ -1,15 +1,22 @@
-name: Test Workflow
+name: Build Project
+
 on:
-  push
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 jobs:
   build:
-    name: Format number with two decimal places
     runs-on: ubuntu-latest
     steps:
-    - name: Format number
-      env:
-        VAR1: 98.4342334
-      run: |
-        rounded=$(printf "%.2f" $VAR1)
-        echo $rounded
-    
+    - uses: actions/checkout@v3
+    - name: set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew build
