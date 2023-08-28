@@ -7,7 +7,7 @@ data class Plant(
     val dateObtained: Long = 0L,
     val lastDateWatered: Long = 0L,
     val lastWaterAmount: Double = 0.0,
-    val waterFrequencyInDays: Int = 0,
+    val waterFrequencyInDays: String,
     val isStarred: Boolean,
     val note: String?,
     val photoBytes: ByteArray?

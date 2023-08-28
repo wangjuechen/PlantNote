@@ -1,5 +1,9 @@
 package com.example.plantnote.plants.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Close
@@ -29,11 +34,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.BlendMode.Companion.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.plantnote.core.presentation.CustomBottomSheet
+import com.example.plantnote.core.presentation.PlantsTheme
 import com.example.plantnote.plants.domain.Plant
 import com.example.plantnote.plants.presentation.PlantListEvent
 import com.example.plantnote.plants.presentation.PlantListState
+import epicarchitect.calendar.compose.basis.BasisEpicCalendar
+import epicarchitect.calendar.compose.basis.config.rememberBasisEpicCalendarConfig
+import epicarchitect.calendar.compose.basis.config.rememberMutableBasisEpicCalendarConfig
+import epicarchitect.calendar.compose.basis.state.rememberBasisEpicCalendarState
+import epicarchitect.calendar.compose.basis.state.rememberMutableBasisEpicCalendarState
+import epicarchitect.calendar.compose.datepicker.state.EpicDatePickerState
+import epicarchitect.calendar.compose.datepicker.state.rememberEpicDatePickerState
 import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -45,30 +60,6 @@ fun AddPlantSheet(
     onEvent: (PlantListEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-//    val datePickerState = rememberEpicDatePickerState(selectionMode = EpicDatePickerState.SelectionMode.Single())
-
-    // first declare a variable that holds the dialog visibility state
-    val showDialog = rememberSaveable { mutableStateOf(false) }
-
-    // then show the dialog based on the state
-    if (showDialog.value) {
-//        ComposeCalendar(
-//            startDate = LocalDate.now(),
-//            minDate = LocalDate.now(),
-//            maxDate = LocalDate.MAX
-//        )
-//        ComposeCalendar(
-//            onDone = { _: LocalDate ->
-//                // Hide dialog
-//                showDialog.value = false
-//                // Do something with the date
-//            },
-//            onDismiss = {
-//                // Hide dialog
-//                showDialog.value = false
-//            }
-//        )
-    }
 
     CustomBottomSheet(
         visible = isOpen,
@@ -147,27 +138,27 @@ fun AddPlantSheet(
                     },
                     modifier = Modifier.fillMaxSize()
                 )
+//                Spacer(Modifier.height(16.dp))
+//                PlantTextField(
+//                    value = newPlant?.lastWaterAmount.toString(), //TODO: leave this for now, needs a number field conversion method to convert
+//                    placeHolder = "How much water you gave last time",
+//                    error = state.lastWaterAmountError,
+//                    onValueChanged = {
+//                        //TODO: leave this for now, needs a number selection Composable dialog here
+////                        onEvent(PlantListEvent.OnLastWaterAmountChanged(it))
+//                    },
+//                    modifier = Modifier.fillMaxSize()
+//                )
                 Spacer(Modifier.height(16.dp))
                 PlantTextField(
-                    value = newPlant?.lastWaterAmount.toString(), //TODO: leave this for now, needs a number field conversion method to convert
-                    placeHolder = "How much water you gave last time",
-                    error = state.lastWaterAmountError,
-                    onValueChanged = {
-                        //TODO: leave this for now, needs a number selection Composable dialog here
-//                        onEvent(PlantListEvent.OnLastWaterAmountChanged(it))
-                    },
-                    modifier = Modifier.fillMaxSize()
-                )
-                Spacer(Modifier.height(16.dp))
-                PlantTextField(
-                    value = newPlant?.waterFrequencyInDays.toString(), //TODO: leave this for now, needs a number field conversion method to convert
-                    placeHolder = "How often you water",
+                    value = newPlant?.waterFrequencyInDays ?: "",
+                    placeHolder = "How often you water in days",
                     error = state.waterFrequencyError,
                     onValueChanged = {
-                        //TODO: leave this for now, needs a number selection Composable dialog here
-//                        onEvent(PlantListEvent.OnWaterFrequencyInDaysChanged(it))
+                        onEvent(PlantListEvent.OnWaterFrequencyInDaysChanged(it))
                     },
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
                 Spacer(Modifier.height(16.dp))
                 PlantTextField(
@@ -212,7 +203,8 @@ fun PlantTextField(
     placeHolder: String,
     error: String?,
     onValueChanged: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
 ) {
     Column(modifier) {
         OutlinedTextField(
@@ -222,7 +214,8 @@ fun PlantTextField(
             },
             onValueChange = onValueChanged,
             shape = RoundedCornerShape(20.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = keyboardOptions
         )
         if (error != null) {
             Text(
@@ -230,5 +223,43 @@ fun PlantTextField(
                 color = MaterialTheme.colorScheme.error
             )
         }
+    }
+}
+
+@Composable
+fun CalendarDatePicker(
+    visible: Boolean,
+    onDateSelected: (LocalDate) -> Unit
+) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = slideInVertically(
+            animationSpec = tween(durationMillis = 300),
+            initialOffsetY = { it }
+        ),
+        exit = slideOutVertically(
+            animationSpec = tween(durationMillis = 300),
+            targetOffsetY = { it }
+        )
+    ) {
+        val calendarState = rememberMutableBasisEpicCalendarState(
+            config = rememberMutableBasisEpicCalendarConfig(
+                rowsSpacerHeight = 4.dp,
+                dayOfWeekViewHeight = 40.dp,
+                dayOfMonthViewHeight = 40.dp,
+                columnWidth = 40.dp,
+                dayOfWeekViewShape = RoundedCornerShape(16.dp),
+                dayOfMonthViewShape = RoundedCornerShape(16.dp),
+                contentPadding = PaddingValues(100.dp),
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                displayDaysOfAdjacentMonths = true,
+                displayDaysOfWeek = true
+            )
+        )
+
+        BasisEpicCalendar(
+            state = calendarState,
+            onDayOfMonthClick = onDateSelected
+        )
     }
 }

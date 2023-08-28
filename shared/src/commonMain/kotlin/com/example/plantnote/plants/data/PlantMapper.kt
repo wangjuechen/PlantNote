@@ -12,7 +12,7 @@ suspend fun PlantEntity.toPlant(imageStorage: ImageStorage): Plant {
         dateObtained = dateObtained,
         lastDateWatered = lastDateWatered,
         lastWaterAmount = lastWaterAmount.toDouble(),
-        waterFrequencyInDays = waterFrequencyInDays.toInt(),
+        waterFrequencyInDays = waterFrequencyInDays.toString(),
         isStarred = isStarred.toBoolean(),
         note = note,
         photoBytes = imagePath?.let { imageStorage.getImage(it)  }

@@ -47,7 +47,11 @@ kotlin {
                 implementation("com.squareup.sqldelight:runtime:1.5.5")
                 implementation("com.squareup.sqldelight:coroutines-extensions:1.5.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-                implementation("com.squaredem:composecalendar:1.0.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+                implementation("io.github.epicarchitect:calendar-compose-basis:1.0.4")
+                implementation("io.github.epicarchitect:calendar-compose-ranges:1.0.4") // includes basis
+                implementation("io.github.epicarchitect:calendar-compose-pager:1.0.4") // includes basis
+                implementation("io.github.epicarchitect:calendar-compose-datepicker:1.0.4") // includes pager + ranges
             }
         }
         val commonTest by getting {
@@ -62,6 +66,7 @@ kotlin {
                 implementation("com.squareup.sqldelight:android-driver:1.5.5")
                 implementation("androidx.appcompat:appcompat:1.6.1")
                 implementation("androidx.activity:activity-compose:1.7.2")
+                implementation("com.squaredem:composecalendar:1.1.0")
             }
         }
         val androidUnitTest by getting
@@ -123,5 +128,4 @@ dependencies {
     commonMainImplementation("io.github.epicarchitect:calendar-compose-ranges:1.0.4")
     commonMainImplementation("io.github.epicarchitect:calendar-compose-pager:1.0.4")
     commonMainImplementation("io.github.epicarchitect:calendar-compose-datepicker:1.0.4")
-    commonMainImplementation("com.squaredem:composecalendar:1.0.0")
 }

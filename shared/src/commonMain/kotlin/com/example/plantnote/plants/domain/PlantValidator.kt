@@ -24,7 +24,7 @@ object PlantValidator {
             validationResult = validationResult.copy(lastWaterAmountError = "The amount of water you gave to plant can't be empty.")
         }
 
-        if (plant.waterFrequencyInDays == 0) {
+        if (plant.waterFrequencyInDays.isBlank()) {
             validationResult = validationResult.copy(waterFrequencyError = "The frequency for watering the plant can't be empty.")
         }
 

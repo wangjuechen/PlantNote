@@ -89,7 +89,7 @@ class PlantsListViewModel(
                     isStarred = false,
                     lastDateWatered = 0L,
                     lastWaterAmount = 0.0,
-                    waterFrequencyInDays = 0,
+                    waterFrequencyInDays = "",
                     note = null,
                     photoBytes = null
                 )
