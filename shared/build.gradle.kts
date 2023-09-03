@@ -7,7 +7,9 @@ plugins {
 }
 
 kotlin {
-    android {
+    jvmToolchain(17)
+
+    androidTarget {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "17"
@@ -48,10 +50,6 @@ kotlin {
                 implementation("com.squareup.sqldelight:coroutines-extensions:1.5.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
-                implementation("io.github.epicarchitect:calendar-compose-basis:1.0.4")
-                implementation("io.github.epicarchitect:calendar-compose-ranges:1.0.4") // includes basis
-                implementation("io.github.epicarchitect:calendar-compose-pager:1.0.4") // includes basis
-                implementation("io.github.epicarchitect:calendar-compose-datepicker:1.0.4") // includes pager + ranges
             }
         }
         val commonTest by getting {
@@ -124,8 +122,4 @@ dependencies {
     commonMainApi("dev.icerock.moko:mvvm-compose:0.16.1")
     commonMainApi("dev.icerock.moko:mvvm-flow:0.16.1")
     commonMainApi("dev.icerock.moko:mvvm-flow-compose:0.16.1")
-    commonMainImplementation("io.github.epicarchitect:calendar-compose-basis:1.0.4")
-    commonMainImplementation("io.github.epicarchitect:calendar-compose-ranges:1.0.4")
-    commonMainImplementation("io.github.epicarchitect:calendar-compose-pager:1.0.4")
-    commonMainImplementation("io.github.epicarchitect:calendar-compose-datepicker:1.0.4")
 }

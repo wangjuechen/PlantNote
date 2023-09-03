@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,37 +22,28 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.plantnote.core.presentation.CustomBottomSheet
-import com.example.plantnote.core.presentation.PlantsTheme
 import com.example.plantnote.plants.domain.Plant
 import com.example.plantnote.plants.presentation.PlantListEvent
 import com.example.plantnote.plants.presentation.PlantListState
-import epicarchitect.calendar.compose.basis.BasisEpicCalendar
-import epicarchitect.calendar.compose.basis.config.rememberBasisEpicCalendarConfig
-import epicarchitect.calendar.compose.basis.config.rememberMutableBasisEpicCalendarConfig
-import epicarchitect.calendar.compose.basis.state.rememberBasisEpicCalendarState
-import epicarchitect.calendar.compose.basis.state.rememberMutableBasisEpicCalendarState
-import epicarchitect.calendar.compose.datepicker.state.EpicDatePickerState
-import epicarchitect.calendar.compose.datepicker.state.rememberEpicDatePickerState
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun AddPlantSheet(
     state: PlantListState,
@@ -60,7 +52,6 @@ fun AddPlantSheet(
     onEvent: (PlantListEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     CustomBottomSheet(
         visible = isOpen,
         modifier = modifier.fillMaxWidth()
@@ -192,6 +183,10 @@ fun AddPlantSheet(
                     contentDescription = "Close"
                 )
             }
+            CalendarDatePicker(
+                visible = true,
+                onDateSelected = { }
+            )
         }
     }
 }
@@ -226,40 +221,58 @@ fun PlantTextField(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarDatePicker(
     visible: Boolean,
     onDateSelected: (LocalDate) -> Unit
 ) {
-    AnimatedVisibility(
-        visible = visible,
-        enter = slideInVertically(
-            animationSpec = tween(durationMillis = 300),
-            initialOffsetY = { it }
-        ),
-        exit = slideOutVertically(
-            animationSpec = tween(durationMillis = 300),
-            targetOffsetY = { it }
-        )
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = Clock.System.now().toEpochMilliseconds()
+    )
+    DatePickerDialog(
+        shape = RoundedCornerShape(6.dp),
+        onDismissRequest = { } ,
+        confirmButton = {
+            // Seems broken at the moment with DateRangePicker
+            // Works fine with DatePicker
+        },
     ) {
-        val calendarState = rememberMutableBasisEpicCalendarState(
-            config = rememberMutableBasisEpicCalendarConfig(
-                rowsSpacerHeight = 4.dp,
-                dayOfWeekViewHeight = 40.dp,
-                dayOfMonthViewHeight = 40.dp,
-                columnWidth = 40.dp,
-                dayOfWeekViewShape = RoundedCornerShape(16.dp),
-                dayOfMonthViewShape = RoundedCornerShape(16.dp),
-                contentPadding = PaddingValues(100.dp),
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                displayDaysOfAdjacentMonths = true,
-                displayDaysOfWeek = true
-            )
-        )
-
-        BasisEpicCalendar(
-            state = calendarState,
-            onDayOfMonthClick = onDateSelected
+        DatePicker(
+            state = datePickerState
         )
     }
+//    AnimatedVisibility(
+//        visible = visible,
+//        enter = slideInVertically(
+//            animationSpec = tween(durationMillis = 300),
+//            initialOffsetY = { it }
+//        ),
+//        exit = slideOutVertically(
+//            animationSpec = tween(durationMillis = 300),
+//            targetOffsetY = { it }
+//        )
+//    ) {
+//        val datePickerState = rememberDatePickerState()
+//        DatePicker(state = datePickerState)
+//        val calendarState = rememberMutableBasisEpicCalendarState(
+//            config = rememberMutableBasisEpicCalendarConfig(
+//                rowsSpacerHeight = 4.dp,
+//                dayOfWeekViewHeight = 40.dp,
+//                dayOfMonthViewHeight = 40.dp,
+//                columnWidth = 40.dp,
+//                dayOfWeekViewShape = RoundedCornerShape(16.dp),
+//                dayOfMonthViewShape = RoundedCornerShape(16.dp),
+//                contentPadding = PaddingValues(100.dp),
+//                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+//                displayDaysOfAdjacentMonths = true,
+//                displayDaysOfWeek = true
+//            )
+//        )
+//
+//        BasisEpicCalendar(
+//            state = calendarState,
+//            onDayOfMonthClick = onDateSelected
+//        )
+//    }
 }
